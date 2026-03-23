@@ -1,5 +1,5 @@
-import clases
+from clases import Restaurante
 
-restaurante = clases.Restaurante ("Don julio", "Asado")
+restaurante = Restaurante ("Don julio", "Asado")
 
-restaurante.describir_restaurante
+restaurante.describir_restaurante()
