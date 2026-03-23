@@ -1,23 +1,34 @@
-archivo = 'unmpi.txt'
+nombre_archivo = 'unmpi.txt'
 
 try:
-    with open(archivo) as file_object:
-        lines = file_object.readlines()
-
-    pi_string = ''
-    for line in lines:
-        pi_string += line.strip()
-
-    cumpleaños = input("ingresa tu cumpleaños en la forma ddmmaa: ")
-
-    if cumpleaños in pi_string:
-        print("tu cumpleaños aparece en los primeros un millón de dígitos de pi")
+    with open(nombre_archivo, 'r') as f:
+        # 1. Leemos todo el contenido
+        contenido_bruto = f.read()
         
-        posicion = pi_string.find(cumpleaños)
-        print(f"se encuentra a partir de la posición {posicion} después del 3.")
+        # 2. LIMPIEZA TOTAL: Nos quedamos SOLO con los números
+        # Quitamos puntos, comas, saltos de línea (\n) y espacios
+        pi_string = ""
+        for caracter in contenido_bruto:
+            if caracter.isdigit():
+                pi_string += caracter
+        
+        # Si el archivo empezaba con 3.14..., ahora pi_string es "314159..."
+        # Le quitamos el "3" inicial para buscar solo en los decimales
+        if pi_string.startswith('3'):
+            pi_string = pi_string[1:]
+
+    # Verificamos largo del archivo
+    print(f"Total de dígitos decimales cargados: {len(pi_string)}")
+
+    busqueda = "010610"
+    
+    if busqueda in pi_string:
+        posicion = pi_string.find(busqueda)
+        print(f"¡ENCONTRADO! La secuencia {busqueda} está en la posición {posicion}.")
     else:
-        print("tu cumpleaños no aparece en el primer millón de dígitos de pi")
+        print(f"La secuencia {busqueda} NO se encontró.")
+        # Te doy una pista de los primeros dígitos para ver si el archivo es correcto
+        print(f"Primeros 20 dígitos en tu archivo: {pi_string[:20]}")
 
 except FileNotFoundError:
-    print(f"Error: No se encontró el archivo {archivo}")
-    print("Asegurate de tener el archivo de texto en la misma carpeta que tu código")
+    print("No se encontró el archivo 'unmpi.txt'.")
